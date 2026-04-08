@@ -1,0 +1,38 @@
+---
+- name: Installer nginx
+  hosts: web
+  remote_user: admrem
+  tasks:
+  
+  - name: Installer program
+    become: true
+    ansible.builtin.apt:
+      pkg: nginx
+      state: present
+      
+      
+- name: vm01 config
+  hosts: vm01
+  remote_user: admrem
+  tasks:
+  
+  - name: vm01 nginx
+    become: true
+    ansible.builtin.shell: echo "Hei, dette er vm01!" > /var/www/html/index.html
+    
+  - name: vm01 restart nginx
+    become: true
+    ansible.builtin.shell: sudo systemctl restart nginx
+    
+- name: vm02 config
+  hosts: vm02
+  remote_user: admrem
+  tasks:
+  
+  - name: vm02 nginx
+    become: true
+    ansible.builtin.shell: echo "Hei, dette er vm02!" > /var/www/html/index.html
+    
+  - name: vm02 restart nginx
+    become: true
+    ansible.builtin.shell: sudo systemctl restart nginx
